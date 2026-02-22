@@ -1,0 +1,8 @@
+# Turso Cloud DB (optional - for cross-device sync)
+# 1. Install: curl -sSfL https://get.tur.so/install.sh | bash
+# 2. Sign up: turso auth signup
+# 3. Create DB: turso db create dis-intelligence
+# 4. Get URL: turso db show dis-intelligence --url
+# 5. Get token: turso db tokens create dis-intelligence
+TURSO_URL=libsql://your-database.turso.io
+TURSO_TOKEN=your_auth_token_here

@@ -1,0 +1,42 @@
+{
+  "_comment": "DIS hook settings - merge into your ~/.claude/settings.json",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/log-mcp.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/capture-error.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/tri-review.sh",
+            "timeout": 120
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/capture-session.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

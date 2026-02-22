@@ -1,0 +1,12 @@
+# Database (personal data)
+intelligence/dev.db
+intelligence/dev.db-journal
+intelligence/dev.db-wal
+intelligence/sync.log
+intelligence/scripts/__pycache__/
+
+# Credentials
+intelligence/.turso-env
+
+# OS
+.DS_Store
