@@ -1,0 +1,16 @@
+graph TD
+  %% Layers as subgraphs
+  subgraph Pure
+    P1[...]
+  end
+
+  subgraph Orchestration
+    O1[...]
+  end
+
+  subgraph IO
+    I1[...]
+  end
+
+  %% Edges (Fact only in main graph; hypotheses in separate section or dashed edges)
+  O1 --> I1

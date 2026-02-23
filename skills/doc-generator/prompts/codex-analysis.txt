@@ -1,0 +1,149 @@
+# Codex Analysis Prompt
+
+あなたはシニアソフトウェアアーキテクトです。
+以下のコードベースを分析し、設計書作成に必要な情報を抽出してください。
+
+## 分析観点
+
+### 1. アーキテクチャ分析
+- 採用されているアーキテクチャパターン（MVC, Clean Architecture, Layered, Hexagonal等）
+- レイヤー構成と各レイヤーの責務
+- 主要なデザインパターンの使用箇所
+
+### 2. コンポーネント分析
+- 主要コンポーネント/モジュールの一覧
+- 各コンポーネントの責務（Single Responsibility）
+- コンポーネント間の依存関係
+
+### 3. データフロー分析
+- エントリーポイント（API, CLI, Event等）
+- データの流れ（入力→処理→出力）
+- 状態管理の方法
+
+### 4. 外部連携分析
+- 使用している外部サービス/API
+- データベース/キャッシュの種類
+- メッセージキュー/イベントバスの有無
+
+### 5. 技術スタック分析
+- 言語・フレームワーク・主要ライブラリ
+- ビルドツール・パッケージマネージャー
+- テストフレームワーク
+
+### 6. 品質分析
+- 技術的負債の特定
+- セキュリティ上の懸念点
+- パフォーマンス上の問題点
+- 改善提案
+
+## 出力形式
+
+以下のJSON形式で出力してください：
+
+```json
+{
+  "projectName": "プロジェクト名",
+  "summary": "システムの概要（1-2文）",
+
+  "architecture": {
+    "pattern": "アーキテクチャパターン名",
+    "layers": [
+      {
+        "name": "レイヤー名",
+        "responsibility": "責務",
+        "components": ["コンポーネント名"]
+      }
+    ],
+    "designPatterns": ["使用パターン"]
+  },
+
+  "components": [
+    {
+      "name": "コンポーネント名",
+      "path": "ファイルパス",
+      "responsibility": "責務",
+      "dependencies": ["依存先"],
+      "publicInterface": ["公開メソッド/関数"]
+    }
+  ],
+
+  "dataFlow": {
+    "entryPoints": [
+      {
+        "type": "API/CLI/Event",
+        "path": "パス/コマンド",
+        "handler": "ハンドラー名"
+      }
+    ],
+    "flows": [
+      {
+        "name": "フロー名",
+        "steps": ["ステップ1", "ステップ2"]
+      }
+    ]
+  },
+
+  "externalServices": [
+    {
+      "name": "サービス名",
+      "type": "Database/API/Queue等",
+      "purpose": "用途"
+    }
+  ],
+
+  "techStack": {
+    "language": "言語名",
+    "languageVersion": "バージョン",
+    "framework": "フレームワーク名",
+    "frameworkVersion": "バージョン",
+    "libraries": [
+      {
+        "name": "ライブラリ名",
+        "purpose": "用途"
+      }
+    ],
+    "buildTools": ["ツール名"],
+    "testFrameworks": ["フレームワーク名"]
+  },
+
+  "qualityAnalysis": {
+    "technicalDebt": [
+      {
+        "issue": "問題点",
+        "location": "場所",
+        "severity": "high/medium/low",
+        "recommendation": "改善案"
+      }
+    ],
+    "securityConcerns": [
+      {
+        "issue": "懸念点",
+        "location": "場所",
+        "severity": "high/medium/low",
+        "recommendation": "対策"
+      }
+    ],
+    "performanceConcerns": [
+      {
+        "issue": "問題点",
+        "location": "場所",
+        "recommendation": "改善案"
+      }
+    ]
+  },
+
+  "metrics": {
+    "totalFiles": 0,
+    "totalLines": 0,
+    "mainLanguagePercentage": 0,
+    "testCoverage": "不明/推定値"
+  }
+}
+```
+
+## 注意事項
+
+1. 推測ではなく、コードから読み取れる事実に基づいて分析すること
+2. 不明な点は「不明」と明記すること
+3. セキュリティ上の具体的な脆弱性コードは出力しないこと
+4. 各項目は具体的なファイルパスや関数名を含めること

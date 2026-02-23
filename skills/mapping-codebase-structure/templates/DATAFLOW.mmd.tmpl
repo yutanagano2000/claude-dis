@@ -1,0 +1,6 @@
+flowchart LR
+  In[Inbound] --> Or[Orchestration]
+  Or --> DB[(DB)]
+  Or --> Ext[External API]
+  Or --> Q[Queue]
+  Or --> Out[Outbound]
