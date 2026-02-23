@@ -109,6 +109,22 @@ def apply_decay():
         except (ValueError, TypeError):
             continue
 
+    # bug_sessions の減衰 (λ=0.007、半減期約99日)
+    BUG_LAMBDA = 0.007
+    cur.execute("SELECT id, score, ts FROM bug_sessions WHERE score > ?", (ARCHIVE_THRESHOLD,))
+    bug_count = 0
+    for bid, score, ts in cur.fetchall():
+        if not ts:
+            continue
+        try:
+            last_dt = datetime.fromisoformat(ts)
+            days = (now - last_dt).days
+            new_score = score * math.exp(-BUG_LAMBDA * days)
+            cur.execute("UPDATE bug_sessions SET score = ? WHERE id = ?", (round(new_score, 4), bid))
+            bug_count += 1
+        except (ValueError, TypeError):
+            continue
+
     # アーカイブ（低スコア削除）
     cur.execute("DELETE FROM solutions WHERE score < ? AND score > 0", (ARCHIVE_THRESHOLD,))
     archived_sol = cur.rowcount
@@ -122,11 +138,13 @@ def apply_decay():
     archived_ds = cur.rowcount
     cur.execute("DELETE FROM questions WHERE score < ? AND score > 0 AND status = 'resolved'", (ARCHIVE_THRESHOLD,))
     archived_q = cur.rowcount
+    cur.execute("DELETE FROM bug_sessions WHERE score < ? AND score > 0", (ARCHIVE_THRESHOLD,))
+    archived_bug = cur.rowcount
 
     conn.commit()
     conn.close()
-    print(f"Decay applied: {sol_count} solutions, {pat_count} patterns, {fb_count} feedback, {ts_count} test_sessions, {ds_count} dev_sessions, {q_count} questions")
-    print(f"Archived: {archived_sol} solutions, {archived_pat} patterns, {archived_fb} feedback, {archived_ts} test_sessions, {archived_ds} dev_sessions, {archived_q} questions (score < {ARCHIVE_THRESHOLD})")
+    print(f"Decay applied: {sol_count} solutions, {pat_count} patterns, {fb_count} feedback, {ts_count} test_sessions, {ds_count} dev_sessions, {q_count} questions, {bug_count} bug_sessions")
+    print(f"Archived: {archived_sol} solutions, {archived_pat} patterns, {archived_fb} feedback, {archived_ts} test_sessions, {archived_ds} dev_sessions, {archived_q} questions, {archived_bug} bug_sessions (score < {ARCHIVE_THRESHOLD})")
 
 
 if __name__ == "__main__":
